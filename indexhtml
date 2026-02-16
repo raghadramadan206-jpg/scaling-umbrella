@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <title>Love Forever</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <style>
+        /* --- Base page --- */
+        body {
+          background: #000;
+          height: 100vh;
+          margin: 0;
+          overflow: hidden;
+          font-family: system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+          display:flex;
+          justify-content:center;
+          align-items:center;
+          flex-direction:column;
+        }
+
+        /* --- Question UI --- */
+        #box{
+          text-align:center;
+          z-index:10;
+          color:white;
+        }
+
+        button{
+          padding:10px 20px;
+          font-size:18px;
+          margin:10px;
+          border:none;
+          border-radius:10px;
+          cursor:pointer;
+          transition: all 0.3s ease;
+        }
+
+        #yes{
+          background:#ff4d6d;
+          color:white;
+        }
+
+        #no{
+          background:#888;
+          color:white;
+        }
+
+        /* --- Love words UI --- */
+        #ui .love {
+          position: absolute;
+          top: 50%;
+          left: 50%;
+          margin: -225px 0 0 -225px;
+          --i: 1;
+        }
+
+        #ui .love_word {
+          color: #ea80b0;
+          font-size: 1.4rem;
+          transform: translateY(-100%) rotateZ(-30deg);
+          text-shadow: 0 0 10px #fff;
+          letter-spacing: 2px;
+          white-space: nowrap;
+        }
+
+        #ui .love_horizontal {
+          animation: horizontal 10000ms infinite alternate ease-in-out;
+          animation-delay: calc(var(--i) * -300ms);
+        }
+
+        #ui .love_vertical {
+          animation: vertical 20000ms infinite linear;
+          animation-delay: calc(var(--i) * -300ms);
+        }
+
+        /* Animations */
+        @keyframes horizontal {
+          from { transform: translateX(0px); }
+          to   { transform: translateX(450px); }
+        }
+        @keyframes vertical {
+          0%   { transform: translateY(180px); }
+          10%  { transform: translateY(45px); }
+          15%  { transform: translateY(4.5px); }
+          18%  { transform: translateY(0px); }
+          20%  { transform: translateY(4.5px); }
+          22%  { transform: translateY(34.61538px); }
+          24%  { transform: translateY(64.28571px); }
+          25%  { transform: translateY(112.5px); }
+          26%  { transform: translateY(64.28571px); }
+          28%  { transform: translateY(34.61538px); }
+          30%  { transform: translateY(4.5px); }
+          32%  { transform: translateY(0px); }
+          35%  { transform: translateY(4.5px); }
+          40%  { transform: translateY(45px); }
+          50%  { transform: translateY(180px); }
+          71%  { transform: translateY(428.57143px); }
+          72.5%{ transform: translateY(441.17647px); }
+          75%  { transform: translateY(450px); }
+          77.5%{ transform: translateY(441.17647px); }
+          79%  { transform: translateY(428.57143px); }
+          100% { transform: translateY(180px); }
+        }
+    </style>
+</head>
+<body>
+
+<!-- Question UI -->
+<div id="box">
+    <h2>Do you love me? 💕</h2>
+    <button id="no">No</button>
+    <button id="yes">Yes 💗</button>
+</div>
+
+<!-- Love words container -->
+<div id="ui" style="margin-top:50px; display:none;"></div>
+
+<script>
+    const noBtn = document.getElementById("no");
+    const yesBtn = document.getElementById("yes");
+    const box = document.getElementById("box");
+    const ui = document.getElementById("ui");
+
+    // No button behavior
+    let clickCount = 0;
+    noBtn.addEventListener("click", ()=>{
+      clickCount++;
+      if(clickCount==1){
+        noBtn.style.transform="scale(0.5)";
+        yesBtn.style.transform="scale(1.5)";
+      } else if(clickCount==2){
+        noBtn.style.transform="scale(0.5)";
+        yesBtn.style.transform="scale(1.7)";
+      } else if(clickCount==3){
+        noBtn.style.display="none";
+        yesBtn.style.transform="scale(2)";
+      }
+    });
+
+    // Yes button triggers love words animation
+    yesBtn.addEventListener("click", ()=>{
+      box.style.display="none";      // Hide question UI
+      ui.style.display = "block";    // Show love words container
+
+      const N = 100; // number of floating "I love you"
+      for (let i = 1; i <= N; i++) {
+        const love = document.createElement('div');
+        love.className = 'love';
+        love.style.setProperty('--i', i);
+
+        const h = document.createElement('div');
+        h.className = 'love_horizontal';
+
+        const v = document.createElement('div');
+        v.className = 'love_vertical';
+
+        const word = document.createElement('div');
+        word.className = 'love_word';
+        word.textContent = 'I love you';
+
+        v.appendChild(word);
+        h.appendChild(v);
+        love.appendChild(h);
+        ui.appendChild(love);
+      }
+    });
+</script>
+</body>
+</html>
+
+
